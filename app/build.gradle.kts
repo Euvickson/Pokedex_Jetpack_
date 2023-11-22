@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "br.com.euvickson.pokedex_jetpack_"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "br.com.euvickson.pokedex_jetpack_"
@@ -53,7 +53,7 @@ android {
 
 dependencies {
     val lifecycleVersion = "2.6.2"
-    val coroutinesVersion = "1.7.1"
+    val coroutinesVersion = "1.7.3"
     val hiltVersion = "2.48.1"
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -92,6 +92,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
 
+    //Glide
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
 
 
 }
