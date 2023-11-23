@@ -1,6 +1,7 @@
 package br.com.euvickson.pokedex_jetpack_.di
 
 import br.com.euvickson.pokedex_jetpack_.network.PokemonAPI
+import br.com.euvickson.pokedex_jetpack_.repository.PokemonRepository
 import br.com.euvickson.pokedex_jetpack_.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -13,6 +14,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Singleton
+    @Provides
+    fun provideRepository(api: PokemonAPI): PokemonRepository = PokemonRepository(api)
 
     @Singleton
     @Provides
