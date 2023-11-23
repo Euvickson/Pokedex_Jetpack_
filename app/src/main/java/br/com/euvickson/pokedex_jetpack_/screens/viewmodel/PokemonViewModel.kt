@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import br.com.euvickson.pokedex_jetpack_.data.DataOrException
 import br.com.euvickson.pokedex_jetpack_.model.PokemonAPIRequest
 import br.com.euvickson.pokedex_jetpack_.repository.PokemonRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class PokemonViewModel @Inject constructor(private val repository: PokemonRepository): ViewModel() {
 
     val data: MutableState<DataOrException<PokemonAPIRequest, Boolean, Exception>>
