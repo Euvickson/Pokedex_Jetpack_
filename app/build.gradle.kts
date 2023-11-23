@@ -92,9 +92,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
 
-    //Glide
-    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
-
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
 }
 

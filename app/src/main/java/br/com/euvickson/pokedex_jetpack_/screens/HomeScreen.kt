@@ -7,15 +7,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.euvickson.pokedex_jetpack_.screens.viewmodel.PokemonViewModel
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
+import coil.compose.AsyncImage
 
 @Composable
 fun HomeScreen(viewModel: PokemonViewModel = hiltViewModel()) {
     ListOfPokemons(viewModel)
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ListOfPokemons(viewModel: PokemonViewModel) {
     val listOfPokemons = viewModel.data.value.data?.results
@@ -25,24 +23,17 @@ fun ListOfPokemons(viewModel: PokemonViewModel) {
         Log.d("Loading", "ListOfPokemons: Loading...")
     } else {
         LazyColumn {
+
             listOfPokemons?.forEachIndexed { index, pokemon ->
                 item {
-                    GlideImage(
+                    AsyncImage(
                         model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png",
                         contentDescription = "Pokemon Image"
                     )
                     Text(text = pokemon.name)
                 }
             }
-//            listOfPokemons?.forEach { pokemon ->
-//                item {
-//                    GlideImage(
-//                        model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
-//                        contentDescription = "Pokemon Image"
-//                    )
-//                    Text(text = pokemon.name)
-//                }
-//            }
+
         }
     }
 }
