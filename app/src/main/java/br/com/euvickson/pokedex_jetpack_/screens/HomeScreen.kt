@@ -17,12 +17,17 @@ fun HomeScreen(viewModel: PokemonViewModel = hiltViewModel()) {
 @Composable
 fun ListOfPokemons(viewModel: PokemonViewModel) {
     val listOfPokemons = viewModel.data.value.data?.results
+    val pokemonDetail = viewModel.pokemonDetail
 
     if (viewModel.data.value.loading == true) {
         CircularProgressIndicator()
         Log.d("Loading", "ListOfPokemons: Loading...")
     } else {
         LazyColumn {
+
+            item {
+                Text(text = pokemonDetail.value.data?.id.toString())
+            }
 
             listOfPokemons?.forEachIndexed { index, pokemon ->
                 item {

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.euvickson.pokedex_jetpack_.data.DataOrException
+import br.com.euvickson.pokedex_jetpack_.model.Pokemon
 import br.com.euvickson.pokedex_jetpack_.model.PokemonAPIRequest
 import br.com.euvickson.pokedex_jetpack_.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,8 +18,12 @@ class PokemonViewModel @Inject constructor(private val repository: PokemonReposi
     val data: MutableState<DataOrException<PokemonAPIRequest, Boolean, Exception>>
     = mutableStateOf(DataOrException(null, true, Exception("")))
 
+    val pokemonDetail: MutableState<DataOrException<Pokemon, Boolean, Exception>>
+    = mutableStateOf(DataOrException(null, true, Exception("")))
+
     init {
         getAllPokemon()
+        getPokemonDetail(1)
     }
 
     private fun getAllPokemon() {
@@ -29,8 +34,22 @@ class PokemonViewModel @Inject constructor(private val repository: PokemonReposi
             if(data.value.data.toString().isNotEmpty()) {
                 data.value.loading = false
             }
+        }
+
+    }
+
+    private fun getPokemonDetail(id: Int) {
+
+        viewModelScope.launch {
+            pokemonDetail.value.loading = true
+            pokemonDetail.value = repository.getPokemonDetail(id)
+
+            if (pokemonDetail.value.data.toString().isNotEmpty()) {
+                pokemonDetail.value.loading = false
+            }
 
         }
+
     }
 
     fun getTotalPokemonCount(): Int {
