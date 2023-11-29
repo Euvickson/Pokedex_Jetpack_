@@ -55,6 +55,7 @@ dependencies {
     val lifecycleVersion = "2.6.2"
     val coroutinesVersion = "1.7.3"
     val hiltVersion = "2.48.1"
+    val navVersion = "2.7.5"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
@@ -95,6 +96,8 @@ dependencies {
     //Coil
     implementation("io.coil-kt:coil-compose:2.5.0")
 
+    //Navigation
+    implementation("androidx.navigation:navigation-compose:$navVersion")
 }
 
 kapt {
