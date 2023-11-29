@@ -16,16 +16,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import br.com.euvickson.pokedex_jetpack_.Navigation.PokemonScreens
 import br.com.euvickson.pokedex_jetpack_.screens.viewmodel.PokemonViewModel
 import coil.compose.SubcomposeAsyncImage
 
 @Composable
-fun HomeScreen(viewModel: PokemonViewModel = hiltViewModel()) {
-    ListOfPokemons(viewModel)
+fun HomeScreen(viewModel: PokemonViewModel = hiltViewModel(), navController: NavHostController) {
+    ListOfPokemons(viewModel) {
+        navController.navigate(route = PokemonScreens.DetailScreen.name+"/$it")
+    }
 }
 
 @Composable
-fun ListOfPokemons(viewModel: PokemonViewModel) {
+fun ListOfPokemons(viewModel: PokemonViewModel, onItemClicked: (id: Int) -> Unit) {
     val listOfPokemons = viewModel.data.value.data?.results
 
     if (viewModel.data.value.loading == true) {
@@ -36,7 +40,7 @@ fun ListOfPokemons(viewModel: PokemonViewModel) {
 
             listOfPokemons?.forEachIndexed { index, pokemon ->
                 item {
-                    Column (modifier = Modifier.fillMaxWidth().clickable {  }, verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column (modifier = Modifier.fillMaxWidth().clickable { onItemClicked(index + 1) }, verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                         SubcomposeAsyncImage(
                             model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png",
                             contentDescription = "Pokemon Image",
