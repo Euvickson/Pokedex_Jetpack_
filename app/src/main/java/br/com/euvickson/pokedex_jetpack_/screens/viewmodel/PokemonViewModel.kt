@@ -23,7 +23,6 @@ class PokemonViewModel @Inject constructor(private val repository: PokemonReposi
 
     init {
         getAllPokemon()
-        getPokemonDetail(1)
     }
 
     private fun getAllPokemon() {
@@ -34,11 +33,12 @@ class PokemonViewModel @Inject constructor(private val repository: PokemonReposi
             if(data.value.data.toString().isNotEmpty()) {
                 data.value.loading = false
             }
+
         }
 
     }
 
-    private fun getPokemonDetail(id: Int) {
+    fun getPokemonDetail(id: Int) {
 
         viewModelScope.launch {
             pokemonDetail.value.loading = true

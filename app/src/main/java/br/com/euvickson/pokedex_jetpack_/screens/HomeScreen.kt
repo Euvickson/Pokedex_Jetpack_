@@ -5,7 +5,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
+import br.com.euvickson.pokedex_jetpack_.component.TypeBar
 import br.com.euvickson.pokedex_jetpack_.screens.viewmodel.PokemonViewModel
 import coil.compose.AsyncImage
 
@@ -23,11 +25,7 @@ fun ListOfPokemons(viewModel: PokemonViewModel) {
         CircularProgressIndicator()
         Log.d("Loading", "ListOfPokemons: Loading...")
     } else {
-        LazyColumn {
-
-            item {
-                Text(text = pokemonDetail.value.data?.id.toString())
-            }
+        LazyColumn (horizontalAlignment = Alignment.CenterHorizontally) {
 
             listOfPokemons?.forEachIndexed { index, pokemon ->
                 item {
@@ -35,7 +33,9 @@ fun ListOfPokemons(viewModel: PokemonViewModel) {
                         model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png",
                         contentDescription = "Pokemon Image"
                     )
+                    Text(text = "# ${(index+1).toString().padStart(3, '0')}")
                     Text(text = pokemon.name)
+                    TypeBar()
                 }
             }
 
