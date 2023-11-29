@@ -1,15 +1,23 @@
 package br.com.euvickson.pokedex_jetpack_.screens
 
 import android.util.Log
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.euvickson.pokedex_jetpack_.component.TypeBar
 import br.com.euvickson.pokedex_jetpack_.screens.viewmodel.PokemonViewModel
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 
 @Composable
 fun HomeScreen(viewModel: PokemonViewModel = hiltViewModel()) {
@@ -19,7 +27,6 @@ fun HomeScreen(viewModel: PokemonViewModel = hiltViewModel()) {
 @Composable
 fun ListOfPokemons(viewModel: PokemonViewModel) {
     val listOfPokemons = viewModel.data.value.data?.results
-    val pokemonDetail = viewModel.pokemonDetail
 
     if (viewModel.data.value.loading == true) {
         CircularProgressIndicator()
@@ -29,13 +36,18 @@ fun ListOfPokemons(viewModel: PokemonViewModel) {
 
             listOfPokemons?.forEachIndexed { index, pokemon ->
                 item {
-                    AsyncImage(
-                        model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png",
-                        contentDescription = "Pokemon Image"
-                    )
-                    Text(text = "# ${(index+1).toString().padStart(3, '0')}")
-                    Text(text = pokemon.name)
-                    TypeBar()
+                    Column (modifier = Modifier.fillMaxWidth().clickable {  }, verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        SubcomposeAsyncImage(
+                            model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png",
+                            contentDescription = "Pokemon Image",
+                            loading = {
+                                CircularProgressIndicator()
+                            }
+                        )
+                        Text(text = "# ${(index+1).toString().padStart(3, '0')}", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Text(text = pokemon.name, modifier = Modifier.padding(bottom = 12.dp, top = 2.dp), fontSize = 24.sp)
+                    }
+
                 }
             }
 
