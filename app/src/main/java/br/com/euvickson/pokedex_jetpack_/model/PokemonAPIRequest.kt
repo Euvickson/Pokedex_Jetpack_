@@ -4,5 +4,5 @@ data class PokemonAPIRequest(
     val count: Int,
     val next: Any,
     val previous: Any,
-    val results: List<PokemonResult>
+    var results: List<PokemonResult>
 )

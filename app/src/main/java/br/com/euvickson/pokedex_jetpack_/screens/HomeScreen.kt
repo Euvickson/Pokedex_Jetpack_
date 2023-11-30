@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -29,9 +31,12 @@ fun HomeScreen(viewModel: PokemonViewModel = hiltViewModel(), navController: Nav
     }
 }
 
+
 @Composable
 fun ListOfPokemons(viewModel: PokemonViewModel, onItemClicked: (id: Int) -> Unit) {
+
     val listOfPokemons = viewModel.data.value.data?.results
+    val textState = remember { mutableStateOf("") }
 
     if (viewModel.data.value.loading == true) {
         CircularProgressIndicator()
@@ -42,10 +47,10 @@ fun ListOfPokemons(viewModel: PokemonViewModel, onItemClicked: (id: Int) -> Unit
 
             item {
                 SearchBar(
-                    hint = "Search...",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
+                    valueState = textState,
+                    labelId = "Search...",
+                    enabled = true,
+                    isSingleLine = true,
                 ) {
 
                 }
@@ -78,12 +83,9 @@ fun ListOfPokemons(viewModel: PokemonViewModel, onItemClicked: (id: Int) -> Unit
                             fontSize = 24.sp
                         )
                     }
-
                 }
             }
 
         }
-
-
     }
 }
