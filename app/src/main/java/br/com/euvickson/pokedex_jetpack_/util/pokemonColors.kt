@@ -1,12 +1,10 @@
 package br.com.euvickson.pokedex_jetpack_.util
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.toLowerCase
 import br.com.euvickson.pokedex_jetpack_.model.Stat
 import br.com.euvickson.pokedex_jetpack_.model.TypeInfo
-import java.util.Locale
 
-fun pokemonColors (type: TypeInfo): Color {
+fun pokemonTypeToColors (type: TypeInfo): Color {
     return when(type.name.lowercase()) {
         "normal" -> AppColors.TypeNormal
         "fire" -> AppColors.TypeFire
@@ -30,7 +28,7 @@ fun pokemonColors (type: TypeInfo): Color {
     }
 }
 
-fun pokemonStatColor(stat: Stat): Color {
+fun pokemonStatToColor(stat: Stat): Color {
     return when (stat.name.lowercase()) {
         "hp" -> AppColors.HPColor
         "attack" -> AppColors.AtkColor
