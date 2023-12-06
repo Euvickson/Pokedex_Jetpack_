@@ -18,7 +18,7 @@ fun PokemonNavigation() {
         }
 
         composable(PokemonScreens.DetailScreen.name+"/{id}", arguments = listOf(navArgument(name = "id") {type = NavType.IntType})) {
-            DetailScreen(it.arguments?.getInt("id"))
+            DetailScreen(it.arguments?.getInt("id"), navController = navController)
         }
     }
 }
