@@ -32,7 +32,7 @@ fun pokemonStatToColor(stat: Stat): Color {
     return when (stat.name.lowercase()) {
         "hp" -> AppColors.HPColor
         "attack" -> AppColors.AtkColor
-        "defence" -> AppColors.DefColor
+        "defense" -> AppColors.DefColor
         "special-attack" -> AppColors.SpAtkColor
         "special-defense" -> AppColors.SpDefColor
         "speed" -> AppColors.SpdColor
@@ -40,11 +40,11 @@ fun pokemonStatToColor(stat: Stat): Color {
     }
 }
 
-fun PokemonStatReducedName(stat: Stat): String {
+fun pokemonStatReducedName(stat: Stat): String {
     return when(stat.name.lowercase()) {
         "hp" -> "HP"
         "attack" -> "Atk"
-        "defence" -> "Def"
+        "defense" -> "Def"
         "special-attack" -> "SpAtk"
         "special-defense" -> "SpDef"
         "speed" -> "spd"

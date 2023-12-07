@@ -1,7 +1,10 @@
 package br.com.euvickson.pokedex_jetpack_.screens
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +28,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +53,8 @@ import br.com.euvickson.pokedex_jetpack_.model.Pokemon
 import br.com.euvickson.pokedex_jetpack_.model.PokemonType
 import br.com.euvickson.pokedex_jetpack_.model.TypeInfo
 import br.com.euvickson.pokedex_jetpack_.screens.viewmodel.PokemonViewModel
+import br.com.euvickson.pokedex_jetpack_.util.pokemonStatReducedName
+import br.com.euvickson.pokedex_jetpack_.util.pokemonStatToColor
 import br.com.euvickson.pokedex_jetpack_.util.pokemonTypeToColors
 import coil.compose.SubcomposeAsyncImage
 import java.util.Locale
@@ -117,8 +126,8 @@ fun DetailScreen(
                         .offset(y = topPadding)
                 )
             }
-        }
 
+        }
 
 
     }
@@ -195,6 +204,7 @@ fun PokemonDetailSection(
             pokemonWeight = pokemonInfo.weight,
             pokemonHeight = pokemonInfo.height
         )
+        PokemonBaseStats(pokemonInfo = pokemonInfo)
 
     }
 
@@ -283,5 +293,103 @@ fun PokemonDetailDataItem(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(text = "$dataValue$dataUnit", color = MaterialTheme.colorScheme.onSurface)
+    }
+}
+@Composable
+fun PokemonBaseStats(
+    pokemonInfo: Pokemon,
+    animDelayPerItem: Int = 100
+) {
+
+    val maxBaseStat = remember { pokemonInfo.stats.maxOf { it.base_stat } }
+
+    Column (
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = "Base Stats",
+            fontSize = 20.sp,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        for (i in pokemonInfo.stats.indices) {
+            val stat = pokemonInfo.stats[i]
+            PokemonStat(
+                statName = pokemonStatReducedName(stat.stat),
+                statValue = stat.base_stat,
+                statMaxValue = maxBaseStat,
+                statColor = pokemonStatToColor(stat.stat),
+                animDelay = i * animDelayPerItem
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+
+@Composable
+fun PokemonStat(
+    statName: String,
+    statValue: Int,
+    statMaxValue: Int,
+    statColor: Color,
+    height: Dp = 28.dp,
+    animDuration: Int = 1000,
+    animDelay: Int = 0
+) {
+    var animationPlayed by remember { mutableStateOf(false) }
+
+    val curPercent = animateFloatAsState(
+        targetValue = if (animationPlayed) {
+            statValue / statMaxValue.toFloat()
+        } else 0f,
+        animationSpec = tween(
+
+            durationMillis = animDuration,
+            delayMillis = animDelay
+        ), label = ""
+    )
+
+    LaunchedEffect(key1 = true) {
+        animationPlayed = true
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(height)
+            .clip(CircleShape)
+            .background(
+                if (isSystemInDarkTheme()) {
+                    Color(0xFF505050)
+                } else {
+                    Color.LightGray
+                }
+            )
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth(curPercent.value)
+                .clip(CircleShape)
+                .background(statColor)
+                .padding(horizontal = 8.dp)
+        ) {
+            Text(
+                text = statName,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.surface
+            )
+
+            Text(
+                text = (curPercent.value * statMaxValue).toInt().toString(),
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.surface
+            )
+        }
     }
 }
