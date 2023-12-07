@@ -19,8 +19,7 @@ class PokemonViewModel @Inject constructor(private val repository: PokemonReposi
     = mutableStateOf(DataOrException(null, true, Exception("")))
 
     val pokemonDetail: MutableState<DataOrException<Pokemon, Boolean, Exception>>
-    = mutableStateOf(DataOrException(null, true, Exception("")))
-
+            = mutableStateOf(DataOrException(null, true, Exception("")))
     init {
         getAllPokemon()
     }
@@ -35,7 +34,6 @@ class PokemonViewModel @Inject constructor(private val repository: PokemonReposi
             }
 
         }
-
     }
 
     fun getPokemonDetail(id: Int) {
@@ -50,9 +48,5 @@ class PokemonViewModel @Inject constructor(private val repository: PokemonReposi
 
         }
 
-    }
-
-    fun getTotalPokemonCount(): Int {
-        return data.value.data?.results?.size ?: return 0
     }
 }
