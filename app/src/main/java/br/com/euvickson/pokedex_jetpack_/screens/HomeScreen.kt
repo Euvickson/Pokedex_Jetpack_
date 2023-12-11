@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,15 +36,16 @@ fun HomeScreen(viewModel: PokemonViewModel = hiltViewModel(), navController: Nav
 @Composable
 fun ListOfPokemons(viewModel: PokemonViewModel, onItemClicked: (id: Int) -> Unit) {
 
-    val listOfPokemons = viewModel.data.value.data?.results
+    val listOfPokemons = viewModel.pokemonList.value.data?.results
     val textState = remember { mutableStateOf("") }
+    val listState = rememberLazyListState()
 
-    if (viewModel.data.value.loading == true) {
+    if (viewModel.pokemonList.value.loading == true) {
         CircularProgressIndicator()
         Log.d("Loading", "ListOfPokemons: Loading...")
     } else {
 
-        LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
+        LazyColumn(horizontalAlignment = Alignment.CenterHorizontally, state = listState) {
 
             item {
                 SearchBar(
@@ -52,7 +54,7 @@ fun ListOfPokemons(viewModel: PokemonViewModel, onItemClicked: (id: Int) -> Unit
                     enabled = true,
                     isSingleLine = true,
                 ) {
-
+                    viewModel.filterPokemon(it)
                 }
             }
 

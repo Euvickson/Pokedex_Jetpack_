@@ -26,7 +26,6 @@ fun SearchBar(
     enabled: Boolean,
     isSingleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
-    imeAction: ImeAction = ImeAction.Next,
     onAction: KeyboardActions = KeyboardActions.Default,
     onSearch: (String) -> Unit = {}
 ) {
@@ -43,7 +42,7 @@ fun SearchBar(
         modifier = modifier.padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
             .fillMaxWidth(),
         enabled = enabled,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         keyboardActions = onAction
     )
 }

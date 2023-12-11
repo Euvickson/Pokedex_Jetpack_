@@ -9,7 +9,7 @@ fun pokemonTypeToColors (type: TypeInfo): Color {
         "normal" -> AppColors.TypeNormal
         "fire" -> AppColors.TypeFire
         "water" -> AppColors.TypeWater
-        "eletric" -> AppColors.TypeEletric
+        "electric" -> AppColors.TypeEletric
         "grass" -> AppColors.TypeGrass
         "ice" -> AppColors.TypeIce
         "fighting" -> AppColors.TypeFighting

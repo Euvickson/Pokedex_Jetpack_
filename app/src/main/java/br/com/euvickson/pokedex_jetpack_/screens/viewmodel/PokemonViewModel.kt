@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.euvickson.pokedex_jetpack_.data.DataOrException
 import br.com.euvickson.pokedex_jetpack_.model.Pokemon
 import br.com.euvickson.pokedex_jetpack_.model.PokemonAPIRequest
+import br.com.euvickson.pokedex_jetpack_.model.PokemonResult
 import br.com.euvickson.pokedex_jetpack_.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,22 +16,24 @@ import javax.inject.Inject
 @HiltViewModel
 class PokemonViewModel @Inject constructor(private val repository: PokemonRepository): ViewModel() {
 
-    val data: MutableState<DataOrException<PokemonAPIRequest, Boolean, Exception>>
+    val pokemonList: MutableState<DataOrException<PokemonAPIRequest, Boolean, Exception>>
     = mutableStateOf(DataOrException(null, true, Exception("")))
 
     val pokemonDetail: MutableState<DataOrException<Pokemon, Boolean, Exception>>
             = mutableStateOf(DataOrException(null, true, Exception("")))
+
+    private var pokemonListFiltered: MutableList<PokemonResult> = mutableListOf()
     init {
         getAllPokemon()
     }
 
     private fun getAllPokemon() {
         viewModelScope.launch {
-            data.value.loading = true
-            data.value = repository.getAllPokemons()
+            pokemonList.value.loading = true
+            pokemonList.value = repository.getAllPokemons()
 
-            if(data.value.data.toString().isNotEmpty()) {
-                data.value.loading = false
+            if(pokemonList.value.data.toString().isNotEmpty()) {
+                pokemonList.value.loading = false
             }
 
         }
@@ -47,6 +50,10 @@ class PokemonViewModel @Inject constructor(private val repository: PokemonReposi
             }
 
         }
+
+    }
+
+    fun filterPokemon(string: String) {
 
     }
 }
