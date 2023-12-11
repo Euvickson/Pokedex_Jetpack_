@@ -53,7 +53,9 @@ class PokemonViewModel @Inject constructor(private val repository: PokemonReposi
 
     }
 
-    fun filterPokemon(string: String) {
-
+    fun filterPokemon(string: String): MutableList<PokemonResult>? {
+        return pokemonList.value.data?.results?.filter {
+            it.name.contains(string)
+        }?.toMutableList()
     }
 }
